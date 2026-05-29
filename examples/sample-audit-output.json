@@ -1,0 +1,51 @@
+{
+  "device": "Aurafit Nexa 2",
+  "brand": "Aurafit",
+  "category": "Smartwatch",
+  "audit_date": "2026-05-12",
+  "firmware": "1.4.2",
+  "companion_app": "Aurafit Pro",
+  "companion_app_version": "3.7.0",
+  "android_version_audited_on": "14",
+  "verdict": "REJECTED",
+  "tier": null,
+  "score": 81,
+  "hard_rejection_reasons": [
+    "Art. 13 — 4 queries to non-vendor domains before data-processing notice was displayed (Crashlytics, AppsFlyer)",
+    "Art. 44 — biometric (heart-rate) endpoint resolves to US, no Art. 44 mechanism published"
+  ],
+  "bucket_scores": {
+    "hardware_id": 25,
+    "biometric": 75,
+    "location": 60,
+    "analytics": 40
+  },
+  "articles": {
+    "13": { "status": "FAIL", "evidence": "4/12 Pass-1 queries before consent screen; 2 to undeclared processors" },
+    "28": { "status": "FAIL", "evidence": "AppsFlyer + 2 unnamed CDNs absent from vendor's processor list" },
+    "32": { "status": "PASS", "evidence": "TLS 1.3 throughout; HTTPS-only; no plaintext payloads observed" },
+    "44": { "status": "FAIL", "evidence": "5 endpoints in US-region, including biometric data sink; vendor publishes no Art. 44 mechanism" }
+  },
+  "pass1_dns_summary": {
+    "total_queries": 12,
+    "vendor": 4,
+    "vendor_undeclared": 0,
+    "processor_declared": 2,
+    "processor_undeclared": 6,
+    "before_consent_count": 4
+  },
+  "pass2_traffic_summary": {
+    "audit_window_hours": 48,
+    "unique_endpoints": 22,
+    "endpoints_by_bucket": {
+      "hardware_id": 4,
+      "biometric": 9,
+      "location": 3,
+      "analytics": 6
+    },
+    "non_eu_endpoints": 5,
+    "biometric_to_non_eu_endpoints": 1
+  },
+  "note_for_researchers": "This sample is illustrative of the schema. The published AINode verdict for Aurafit Nexa 2 is REJECTED with score 81 — see https://ainode.tech/audits/nexa2 for the full publication.",
+  "citation": "AINode (2026). AINode Audit Corpus 2026 — wearable privacy forensic audit dataset. https://ainode.tech/datasets/ainode-audit-corpus-2026. License: CC-BY 4.0."
+}

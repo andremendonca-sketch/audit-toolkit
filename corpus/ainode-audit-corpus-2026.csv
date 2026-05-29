@@ -1,0 +1,9 @@
+device_id,brand,name,category,verdict,tier,privacy_score,identifier_disclosure,biometric_disclosure,location_disclosure,analytics_disclosure,audit_date
+"heycyan","HeyCyan","AI Glasses","smart_glasses","PASS","B","36","declared","n/a","declared","declared","2026-05-28"
+"redmi-watch-5","Xiaomi","Redmi Watch 5 Active","smartwatch","PASS","B","32","declared","declared","declared","declared","2026-05-28"
+"shr-k3","SHR","K3 Ring","smart_ring","INVESTIGATE","C","51","declared","declared","declared","partial","2026-05-28"
+"aurabuds","Aurafit","Aurabuds X6","tws_earbuds","INVESTIGATE","C","65","declared","n/a","declared","partial","2026-05-28"
+"8mp","FancyView","8MP AI Glasses","smart_glasses","REJECTED","","59","declared","n/a","undeclared","undeclared","2026-05-28"
+"1200w","Generic","1200W AI Glasses","smart_glasses","REJECTED","","61","declared","n/a","undeclared","undeclared","2026-05-28"
+"aurafit-titan","Aurafit","Titan","smartwatch","REJECTED","","73","declared","declared","undeclared","undeclared","2026-05-28"
+"nexa2","Aurafit","Nexa 2","smartwatch","REJECTED","","81","declared","declared","undeclared","undeclared","2026-05-28"

@@ -1,0 +1,13 @@
+# secrets — never commit captures with PII
+*.pcap
+*.har
+pass1_dns_*.json
+pass2_traffic_*.json
+
+# vendor-disclosure local copies
+vendor_disclosures_*.json
+
+# python
+__pycache__/
+*.pyc
+.venv/
