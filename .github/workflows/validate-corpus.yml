@@ -1,0 +1,82 @@
+name: validate-corpus
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'corpus/**'
+      - 'examples/**'
+      - '.github/workflows/validate-corpus.yml'
+  pull_request:
+    paths:
+      - 'corpus/**'
+      - 'examples/**'
+  schedule:
+    # Weekly heartbeat — catches if the upstream live corpus diverges from the mirror
+    - cron: '0 8 * * 1'
+
+jobs:
+  validate-json:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate JSON files parse
+        run: |
+          set -e
+          for f in corpus/*.json examples/*.json; do
+            echo "checking $f"
+            python3 -c "import json,sys; json.load(open('$f'))"
+          done
+          echo "all JSON files valid"
+
+      - name: Validate CSV has required columns
+        run: |
+          set -e
+          head -1 corpus/ainode-audit-corpus-2026.csv | tr ',' '\n' > /tmp/headers
+          for col in device_id brand name category verdict tier privacy_score audit_date; do
+            grep -q "^$col$" /tmp/headers || (echo "MISSING column: $col" && exit 1)
+          done
+          echo "CSV schema OK"
+
+      - name: Check verdicts are valid
+        run: |
+          set -e
+          # Column 5 (0-indexed 4) is verdict — assert each row is PASS/INVESTIGATE/REJECTED
+          tail -n +2 corpus/ainode-audit-corpus-2026.csv | awk -F',' '{print $5}' | sort -u > /tmp/verdicts
+          while read v; do
+            case "$v" in
+              PASS|INVESTIGATE|REJECTED) ;;
+              *) echo "INVALID verdict: $v" && exit 1 ;;
+            esac
+          done < /tmp/verdicts
+          echo "all verdicts valid"
+
+      - name: Check scores are 0-100
+        run: |
+          set -e
+          tail -n +2 corpus/ainode-audit-corpus-2026.csv | awk -F',' '{print $7}' | while read s; do
+            if [ "$s" -lt 0 ] || [ "$s" -gt 100 ] 2>/dev/null; then
+              echo "INVALID score: $s"; exit 1
+            fi
+          done
+          echo "all scores in 0-100"
+
+  mirror-drift-check:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compare corpus mirror against live AINode endpoint
+        run: |
+          set -e
+          curl -sL "https://ainode.tech/data/ainode-audit-corpus-2026.json" > /tmp/live.json
+          # Count rows in each
+          local_rows=$(python3 -c "import json; print(len(json.load(open('corpus/ainode-audit-corpus-2026.json'))))")
+          live_rows=$(python3 -c "import json; print(len(json.load(open('/tmp/live.json'))))")
+          echo "local rows: $local_rows"
+          echo "live rows:  $live_rows"
+          if [ "$local_rows" != "$live_rows" ]; then
+            echo "::warning::corpus mirror has drifted from live endpoint ($local_rows vs $live_rows). Refresh: curl -sL https://ainode.tech/data/ainode-audit-corpus-2026.json > corpus/ainode-audit-corpus-2026.json"
+          fi

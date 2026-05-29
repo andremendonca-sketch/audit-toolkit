@@ -1,6 +1,10 @@
-MIT License
+MIT License (code) + CC-BY 4.0 (audit data)
 
-Copyright (c) 2026 andremendonca-sketch
+Copyright (c) 2026 AINode (Portugal)
+
+============================================================================
+MIT License — applies to all source code in /src/
+============================================================================
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +23,18 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+============================================================================
+CC-BY 4.0 — applies to all audit data in /corpus/ and /examples/
+============================================================================
+
+This audit dataset is licensed under a Creative Commons Attribution 4.0
+International License. You may share and adapt it for any purpose, including
+commercial, provided you give appropriate credit. See:
+https://creativecommons.org/licenses/by/4.0/
+
+Required citation:
+
+  AINode (2026). AINode Audit Corpus 2026 —
+  wearable privacy forensic audit dataset.
+  https://ainode.tech/datasets/ainode-audit-corpus-2026

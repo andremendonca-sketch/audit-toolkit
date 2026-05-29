@@ -1,5 +1,11 @@
 # audit-toolkit
 
+[![License: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
+[![Data: CC BY 4.0](https://img.shields.io/badge/data-CC--BY%204.0-orange.svg)](https://creativecommons.org/licenses/by/4.0/)
+[![Corpus rows](https://img.shields.io/badge/corpus%20rows-8%20audited-green.svg)](https://ainode.tech/data/ainode-audit-corpus-2026.json)
+[![Last updated](https://img.shields.io/badge/updated-2026--05--29-brightgreen.svg)](https://github.com/andremendonca-sketch/audit-toolkit/commits/main)
+[![CI](https://github.com/andremendonca-sketch/audit-toolkit/actions/workflows/validate-corpus.yml/badge.svg)](https://github.com/andremendonca-sketch/audit-toolkit/actions/workflows/validate-corpus.yml)
+
 > **The forensic privacy-audit toolkit used by [AINode](https://ainode.tech) on every wearable in our 2026 corpus.**
 
 This repo contains the methodology, the minimal capture/analysis code, and a sample of the resulting dataset. It is the technical backing for everything published at <https://ainode.tech/learn>.
