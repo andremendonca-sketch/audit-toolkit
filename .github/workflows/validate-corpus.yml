@@ -42,9 +42,10 @@ jobs:
       - name: Check verdicts are valid
         run: |
           set -e
-          # Column 5 (0-indexed 4) is verdict — assert each row is PASS/INVESTIGATE/REJECTED
-          tail -n +2 corpus/ainode-audit-corpus-2026.csv | awk -F',' '{print $5}' | sort -u > /tmp/verdicts
+          # Column 5 = verdict. Strip surrounding double-quotes (CSV may be quoted).
+          tail -n +2 corpus/ainode-audit-corpus-2026.csv | awk -F',' '{gsub(/^"|"$/, "", $5); print $5}' | sort -u > /tmp/verdicts
           while read v; do
+            [ -z "$v" ] && continue
             case "$v" in
               PASS|INVESTIGATE|REJECTED) ;;
               *) echo "INVALID verdict: $v" && exit 1 ;;
@@ -55,9 +56,14 @@ jobs:
       - name: Check scores are 0-100
         run: |
           set -e
-          tail -n +2 corpus/ainode-audit-corpus-2026.csv | awk -F',' '{print $7}' | while read s; do
-            if [ "$s" -lt 0 ] || [ "$s" -gt 100 ] 2>/dev/null; then
-              echo "INVALID score: $s"; exit 1
+          tail -n +2 corpus/ainode-audit-corpus-2026.csv | awk -F',' '{gsub(/^"|"$/, "", $7); print $7}' | while read s; do
+            [ -z "$s" ] && continue
+            # Numeric check
+            if ! echo "$s" | grep -qE '^[0-9]+$'; then
+              echo "NON-NUMERIC score: '$s'"; exit 1
+            fi
+            if [ "$s" -lt 0 ] || [ "$s" -gt 100 ]; then
+              echo "OUT-OF-RANGE score: $s"; exit 1
             fi
           done
           echo "all scores in 0-100"
